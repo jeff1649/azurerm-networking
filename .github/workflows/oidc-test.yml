@@ -1,4 +1,4 @@
-name: Azure OIDC Test
+name: OIDC Test
 
 on:
   workflow_dispatch:
@@ -8,8 +8,9 @@ permissions:
   contents: read
 
 jobs:
-  test-login:
+  oidc-test:
     runs-on: ubuntu-latest
+    environment: poc
 
     steps:
       - name: Checkout
@@ -23,4 +24,4 @@ jobs:
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
       - name: Verify Azure Login
-        run: az account show -o table
+        run: az account show

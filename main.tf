@@ -2,8 +2,8 @@ module "network" {
   source = "./modules/vnet"
 
   vnet_name           = "vnet-tf-test"
-  location            = azurerm_resource_group.main.location
-  resource_group_name = azurerm_resource_group.main.name
+  location            = "centralus"
+  resource_group_name = "rg-terraform-test-poc"
 
   address_space = [
     "10.10.0.0/16"

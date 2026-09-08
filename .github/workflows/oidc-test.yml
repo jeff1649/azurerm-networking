@@ -50,7 +50,12 @@ jobs:
         run: terraform fmt -check -recursive
 
       - name: Terraform Init
-        run: terraform init
+          run: |
+            if [ "${{ inputs.environment }}" = "poc" ]; then
+              terraform init -backend-config="key=azurerm-networking.tfstate"
+            else
+              terraform init -backend-config="key=${{ inputs.environment }}/azurerm-networking.tfstate"
+            fi
 
       - name: Terraform Validate
         run: terraform validate

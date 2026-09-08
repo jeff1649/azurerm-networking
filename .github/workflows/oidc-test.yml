@@ -2,6 +2,15 @@ name: Terraform Plan
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: "Terraform environment"
+        required: true
+        type: choice
+        options:
+          - poc
+        default: poc
+
   pull_request:
     branches:
       - main
@@ -47,4 +56,4 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan -var-file="environments/poc.tfvars"
+        run: terraform plan -var-file="environments/${{ inputs.environment }}.tfvars"

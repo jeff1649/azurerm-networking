@@ -1,17 +1,25 @@
-name: Terraform Plan
+name: Terraform Apply
 
 on:
   workflow_dispatch:
-  pull_request:
-    branches:
-      - main
+    inputs:
+      confirm:
+        description: "Confirm Terraform apply"
+        required: true
+        type: choice
+        options:
+          - "no"
+          - "yes"
+        default: "no"
 
 permissions:
   id-token: write
   contents: read
 
 jobs:
-  terraform-plan:
+  terraform-apply:
+    if: ${{ inputs.confirm == 'yes' }}
+
     runs-on: ubuntu-latest
     environment: poc
 
@@ -37,9 +45,6 @@ jobs:
         with:
           terraform_version: 1.13.3
 
-      - name: Terraform Format
-        run: terraform fmt -check -recursive
-
       - name: Terraform Init
         run: terraform init
 
@@ -47,4 +52,7 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform plan -out=tfplan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan

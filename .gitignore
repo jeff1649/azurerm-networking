@@ -6,3 +6,4 @@ crash.*.log
 *.tfplan
 rg-oidc.json
 control-oidc.json
+federated-*.json
